@@ -22,6 +22,15 @@ public class Untitled {
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
+  @After
+  public void tearDown() throws Exception {
+    driver.quit();
+    String verificationErrorString = verificationErrors.toString();
+    if (!"".equals(verificationErrorString)) {
+      fail(verificationErrorString);
+    }
+  }
+
   @Test
   public void testUntitled2() throws Exception {
         driver.get(baseUrl + "/php4dvd/");
@@ -32,15 +41,6 @@ public class Untitled {
         driver.findElement(By.name("submit")).click();
         driver.findElement(By.linkText("Log out")).click();
         assertTrue(closeAlertAndGetItsText().matches("^Are you sure you want to log out[\\s\\S]$"));
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-    String verificationErrorString = verificationErrors.toString();
-    if (!"".equals(verificationErrorString)) {
-      fail(verificationErrorString);
-    }
   }
 
   private boolean isElementPresent(By by) {
